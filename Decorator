@@ -1,0 +1,83 @@
+//HTML
+<template>
+    <h1>welcome to my First LWC Component</h1>
+    <lightning-input label="Enter the Value" required value={inputText} onchange={handleClick}>
+
+    </lightning-input>
+    <p>{greeting}</p>
+    <p>{inputText}</p>
+
+    <p>
+        <lightning-button label="Click Me" value="clickMe" onclick={handleSubmit}></lightning-button>
+    </p>
+
+    <div class="slds-m-around_large">
+        <template for:each={result} for:item="contact">
+            <p key={contact.Id}>
+                {contact.Id}
+            </p>
+        </template>
+    </div>
+    
+</template>
+
+//JS
+import { LightningElement, api, wire } from 'lwc';
+import getContactList from '@salesforce/apex/ApexHourDemoClass.getContactList';
+import getAccountList from '@salesforce/apex/ApexHourDemoClass.getAccountList';
+
+export default class FirstLwcAPD extends LightningElement {
+
+    greeting = 'Welcome to Bharti Consultant';
+    inputText = '';
+    @api message = "This is simple message";
+
+    result;
+    error;
+
+    @wire(getContactList)
+    wiredData({error, data}) {
+        if(data) {
+            this.result = data;
+            this.error = undefined;
+            window.console.log('Contact Records ', data);
+        } else if(error) {
+            this.result = undefined;
+            this.error = error;
+            window.console.log('Contact Records ', error);
+        }
+    }
+
+    handleClick(event){
+        this.inputText = event.target.value;
+        window.console.log('event tatrger', event.target);
+    }
+
+    handleSubmit(event){
+        alert('Button Clicked');
+        getAccountList()
+            .then(result => {
+                this.result = result;
+                this.error = undefined;
+            })
+            .catch(error => {
+                this.result = undefined;
+                this.error = error;
+            });
+    }
+}
+
+
+//Apex
+public with sharing class ApexHourDemoClass {
+
+    @AuraEnabled(cacheable=true)
+    public static List<Contact> getContactList(){
+        return [SELECT Id, Name, Email FROM Contact LIMIT 20];  
+    }
+
+    @AuraEnabled
+    public static List<Account> getAccountList(){
+        return [SELECt Id, Name FROM Account LIMIT 2];
+    }
+}
