@@ -1,0 +1,39 @@
+//First LWC component
+//HTML
+<template>
+    <h1>welcome to my First LWC Component</h1>
+    <lightning-input label="Enter the Value" required value={inputText} onchange={handleClick}>
+
+    </lightning-input>
+    <p>{greeting}</p>
+    <p>{inputText}</p>
+
+    <p>
+        <lightning-button label="Click Me" value="clickMe" onclick={handleSubmit}></lightning-button>
+    </p>
+    
+</template>
+
+//JS
+import { LightningElement } from 'lwc';
+
+export default class FirstLwcAPD extends LightningElement {
+
+    greeting = 'Welcome to Bharti Consultant';
+    inputText = '';
+
+    handleClick(event){
+        this.inputText = event.target.value;
+        window.console.log('event tatrger', event.target);
+    }
+
+    handleSubmit(event){
+        alert('Button Clicked');
+    }
+}
+
+//Application
+<aura:application extends="force:slds">
+    <c:firstLwcAPD/>
+
+</aura:application>	
