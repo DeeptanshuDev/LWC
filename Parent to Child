@@ -1,0 +1,42 @@
+//Parent HTML
+<template>
+    <div class="slds-m-around_large">
+        <c-child-apex-hours></c-child-apex-hours>
+    </div>
+    <div class="slds-m-around_large">
+        <lightning-button label="Click Me" value="Click Me" onclick={handleClick}>
+        </lightning-button>
+    </div>
+    
+</template>
+
+//Parent JS
+import { LightningElement, api } from 'lwc';
+
+export default class ParentApexHours extends LightningElement {
+   // message = "I am from Parent Component";
+
+    handleClick(){
+        this.message = 'Message Changed';
+        this.template.querySelector('c-child-apex-hours').childCmp(this.message);
+    }
+}
+
+//Child HTMl
+<template>
+    {message}
+    
+</template>
+
+//Child JS
+import { LightningElement, api } from 'lwc';
+
+export default class ParentApexHours extends LightningElement {
+    @api message;
+
+    @api
+    childCmp(name){
+        alert(name);
+        this.message = name;
+    }
+}
