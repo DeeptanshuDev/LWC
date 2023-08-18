@@ -1,0 +1,44 @@
+//HTML
+<template>
+    <div class="slds-m-around_large">
+        <lightning-record-form object-api-name="Account"
+                               layout-type="Full"
+                               columns="2"
+                               mode="edit"
+                               onerror={handleError}
+                               onsuccess={handleSuccess}
+                               onsubmit={handleSubmit}
+                               >
+        </lightning-record-form>
+
+    </div>
+    
+</template>
+
+//JS
+import { LightningElement } from 'lwc';
+
+export default class LdsDemo extends LightningElement {
+
+    handleError(){
+        alert('Error Occured');
+    }
+    handleSuccess(){
+        alert('Record Created');
+    }
+    handleSubmit(){
+        alert('Form Submitted');
+    }
+}
+
+//XML
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>57.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>LDS Demo (ApexHours)</masterLabel>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__HomePage</target>
+    </targets>
+</LightningComponentBundle>
